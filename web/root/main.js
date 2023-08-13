@@ -19,6 +19,9 @@ const GUI = (cvs, glWindow, place) => {
   let lastScalingDist = 0;
   let touchstartTime;
 
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+
   var cooldown = 0;
   const cooldownTime = 2;
 
@@ -83,6 +86,10 @@ const GUI = (cvs, glWindow, place) => {
           pickColor({ x: ev.clientX, y: ev.clientY });
         } else {
           if (cooldownInterval !== null) return;
+          if (urlParams.get("admin") == "csc") {
+            drawPixel({ x: ev.clientX, y: ev.clientY }, color);
+            return;
+          } 
 
           drawPixel({ x: ev.clientX, y: ev.clientY }, color);
           cooldown = cooldownTime;
@@ -139,6 +146,10 @@ const GUI = (cvs, glWindow, place) => {
     let elapsed = new Date().getTime() - touchstartTime;
     if (elapsed < 100) {
       if (cooldownInterval !== null) return;
+      if (urlParams.get("admin") == "csc") {
+        drawPixel(lastMovePos, color);
+        return;
+      }
 
       drawPixel({ x: ev.clientX, y: ev.clientY }, color);
       cooldown = cooldownTime;
