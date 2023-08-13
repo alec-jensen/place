@@ -31,7 +31,7 @@ func init() {
 	flag.StringVar(&root, "root", "web/root", "The directory serving files.")
 	flag.StringVar(&loadPath, "load", "./place.png", "The png to load as the canvas.")
 	flag.StringVar(&savePath, "save", "./place.png", "The path to save the canvas.")
-	flag.StringVar(&logPath, "log", "", "The log file to write to.")
+	flag.StringVar(&logPath, "log", ".", "The log file to write to.")
 	flag.IntVar(&width, "width", 64, "The width to create the canvas.")
 	flag.IntVar(&height, "height", 64, "The height to create the canvas.")
 	flag.IntVar(&count, "count", 64, "The maximum number of connections.")
