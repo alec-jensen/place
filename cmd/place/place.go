@@ -35,7 +35,7 @@ func init() {
 	flag.IntVar(&width, "width", 64, "The width to create the canvas.")
 	flag.IntVar(&height, "height", 64, "The height to create the canvas.")
 	flag.IntVar(&count, "count", 64, "The maximum number of connections.")
-	flag.IntVar(&saveInterval, "sinterval", 180, "Save interval in seconds.")
+	flag.IntVar(&saveInterval, "sinterval", 10, "Save interval in seconds.")
 }
 
 func main() {
