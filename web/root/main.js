@@ -67,6 +67,8 @@ const GUI = (cvs, glWindow, place) => {
     glWindow.draw();
   });
 
+  let cooldownInterval = null;
+
   cvs.addEventListener("mousedown", (ev) => {
     switch (ev.button) {
       case 0:
@@ -80,23 +82,22 @@ const GUI = (cvs, glWindow, place) => {
         if (ev.ctrlKey) {
           pickColor({ x: ev.clientX, y: ev.clientY });
         } else {
-          if (cooldown > 0) return;
+          if (cooldownInterval !== null) return;
+
           drawPixel({ x: ev.clientX, y: ev.clientY }, color);
           cooldown = cooldownTime;
-          for (let i = 0; i < 10; i++) {
-            setTimeout(
-              () => {
-                if (cooldown == 0) {
-                  document.getElementById("cooldown").innerHTML = "";
-                  return;
-                }
-                document.getElementById("cooldown").innerHTML = cooldown;
-                cooldown--;
-              },
-              i * 1000,
-              i
-            );
-          }
+
+          document.getElementById("cooldown").innerHTML = cooldown;
+          cooldownInterval = setInterval(() => {
+            if (cooldown > 1) {
+              cooldown--;
+              document.getElementById("cooldown").innerHTML = cooldown;
+            } else {
+              clearInterval(cooldownInterval);
+              cooldownInterval = null;
+              document.getElementById("cooldown").innerHTML = "";
+            }
+          }, 1000);
         }
     }
   });
@@ -137,22 +138,22 @@ const GUI = (cvs, glWindow, place) => {
     touchID++;
     let elapsed = new Date().getTime() - touchstartTime;
     if (elapsed < 100) {
-      if (cooldown > 0) return;
+      if (cooldownInterval !== null) return;
+
+      drawPixel({ x: ev.clientX, y: ev.clientY }, color);
       cooldown = cooldownTime;
-      for (let i = 0; i < 10; i++) {
-        setTimeout(
-          () => {
-            if (cooldown == 0) {
-              document.getElementById("cooldown").innerHTML = "";
-              return;
-            }
-            document.getElementById("cooldown").innerHTML = cooldown;
-            cooldown--;
-          },
-          i * 1000,
-          i
-        );
-      }
+
+      document.getElementById("cooldown").innerHTML = cooldown;
+      cooldownInterval = setInterval(() => {
+        if (cooldown > 1) {
+          cooldown--;
+          document.getElementById("cooldown").innerHTML = cooldown;
+        } else {
+          clearInterval(cooldownInterval);
+          cooldownInterval = null;
+          document.getElementById("cooldown").innerHTML = "";
+        }
+      }, 1000);
       if (drawPixel(lastMovePos, color)) {
         navigator.vibrate(10);
       }
