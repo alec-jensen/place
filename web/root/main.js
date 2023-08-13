@@ -136,6 +136,22 @@ const GUI = (cvs, glWindow, place) => {
     touchID++;
     let elapsed = new Date().getTime() - touchstartTime;
     if (elapsed < 100) {
+      if (cooldown > 0) return;
+      cooldown = 9;
+      for (let i = 0; i < 10; i++) {
+        setTimeout(
+          () => {
+            if (cooldown == 0) {
+              document.getElementById("cooldown").innerHTML = "";
+              return;
+            }
+            document.getElementById("cooldown").innerHTML = cooldown;
+            cooldown--;
+          },
+          i * 1000,
+          i
+        );
+      }
       if (drawPixel(lastMovePos, color)) {
         navigator.vibrate(10);
       }
