@@ -20,6 +20,7 @@ const GUI = (cvs, glWindow, place) => {
   let touchstartTime;
 
   var cooldown = 0;
+  const cooldownTime = 2;
 
   const colorField = document.querySelector("#color-field");
 
@@ -81,7 +82,7 @@ const GUI = (cvs, glWindow, place) => {
         } else {
           if (cooldown > 0) return;
           drawPixel({ x: ev.clientX, y: ev.clientY }, color);
-          cooldown = 9;
+          cooldown = cooldownTime;
           for (let i = 0; i < 10; i++) {
             setTimeout(
               () => {
@@ -137,7 +138,7 @@ const GUI = (cvs, glWindow, place) => {
     let elapsed = new Date().getTime() - touchstartTime;
     if (elapsed < 100) {
       if (cooldown > 0) return;
-      cooldown = 9;
+      cooldown = cooldownTime;
       for (let i = 0; i < 10; i++) {
         setTimeout(
           () => {
