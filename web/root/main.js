@@ -95,6 +95,7 @@ const GUI = (cvs, glWindow, place) => {
           cooldown = cooldownTime;
 
           document.getElementById("cooldown").innerHTML = cooldown;
+          document.getElementById("cooldown").style.visibility = "visible";
           cooldownInterval = setInterval(() => {
             if (cooldown > 1) {
               cooldown--;
@@ -103,6 +104,7 @@ const GUI = (cvs, glWindow, place) => {
               clearInterval(cooldownInterval);
               cooldownInterval = null;
               document.getElementById("cooldown").innerHTML = "";
+              document.getElementById("cooldown").style.visibility = "hidden";
             }
           }, 1000);
         }
@@ -144,7 +146,7 @@ const GUI = (cvs, glWindow, place) => {
   document.addEventListener("touchend", (ev) => {
     touchID++;
     let elapsed = new Date().getTime() - touchstartTime;
-    if (elapsed < 100) {
+    if (elapsed < 250) {
       if (cooldownInterval !== null) return;
       if (urlParams.get("admin") == "csc") {
         drawPixel(lastMovePos, color);
@@ -155,7 +157,8 @@ const GUI = (cvs, glWindow, place) => {
       cooldown = cooldownTime;
 
       document.getElementById("cooldown").innerHTML = cooldown;
-      cooldownInterval = setInterval(() => {
+      document.getElementById("cooldown").style.visibility = "visible";
+      cooldownInterval = setInterval(() => {0
         if (cooldown > 1) {
           cooldown--;
           document.getElementById("cooldown").innerHTML = cooldown;
@@ -163,6 +166,7 @@ const GUI = (cvs, glWindow, place) => {
           clearInterval(cooldownInterval);
           cooldownInterval = null;
           document.getElementById("cooldown").innerHTML = "";
+          document.getElementById("cooldown").style.visibility = "hidden";
         }
       }, 1000);
       if (drawPixel(lastMovePos, color)) {

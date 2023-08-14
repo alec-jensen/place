@@ -14,10 +14,10 @@
 <body>
 	<canvas id="viewport-canvas" oncontextmenu="return false;"></canvas>
 	<div id="ui-wrapper">
+		<p id="cooldown"></p>
 		<p id="loading-p"></p>
 		<div id="color-wrapper">
 			<input type="color" id="color-field" value="#000000">
-			<p id="cooldown"></p>
 		</div>
 		<div id="zoom-wrapper">
 			<button class="zoom-button" id="zoom-out">
@@ -32,19 +32,18 @@
 		<p><strong>Help</strong></p>
 	</button>
 	<div id="help-popup">
+		<p>Use the <strong>color picker</strong> on the bottom-left to change the selected color</p><br>
 		<div id="help-text-desktop">
 			<p><strong>Right Click</strong> to place a pixel.</p>
-			<p>There is a 10 second cooldown</p><br>
+			<p>There is a 2 second cooldown</p><br>
 			<p>Use the mouse wheel or <strong>+</strong> and <strong>-</strong> buttons to zoom in.</p><br>
 			<p><strong>Ctrl + Right Click</strong> to select a color from the canvas.</p><br>
-			<p>Use the color picker on the bottom-left to change the selected color</p>
 		</div>
 		<div id="help-text-mobile">
 			<p><strong>Tap</strong> to place a pixel.</p>
-			<p>There is a 10 second cooldown</p><br>
+			<p>There is a 2 second cooldown</p><br>
 			<p><strong>Pinch</strong> to zoom or use the <strong>+</strong> and <strong>-</strong> buttons.</p><br>
 			<p><strong>Long press</strong> to select a color from the canvas.</p><br>
-			<p>Use the color picker on the bottom-left to change the selected color</p>
 		</div>
 		<p><strong>Rules:</strong></p>
 		<ul style="padding-left: 1.5em;">
