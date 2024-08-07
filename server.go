@@ -147,6 +147,10 @@ func (sv *Server) readLoop(conn *websocket.Conn, i int) {
 			log.Println("Client kicked for high rate.")
 			break
 		}
+		if string(p) == "ping" {
+			conn.WriteMessage(websocket.BinaryMessage, []byte("pong"))
+			continue
+		}
 		if sv.handleMessage(p) != nil {
 			log.Println("Client kicked for bad message.")
 			break

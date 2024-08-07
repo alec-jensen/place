@@ -7,7 +7,45 @@ function main() {
   let place = new Place(glWindow);
   place.initConnection();
 
+  setInterval(() => {
+    place.socket.send("ping");
+  }, 30000);
+
   let gui = GUI(cvs, glWindow, place);
+
+  document.addEventListener("DOMContentLoaded", () => {
+    let helpPopup = document.querySelector("#help-popup");
+    if (getCookie("help-popup") == "") {
+      helpPopup.style.visibility = "visible";
+    }
+    helpPopup.addEventListener("click", () => {
+      helpPopup.style.visibility = "hidden";
+      setCookie("help-popup", "true", 365);
+    });
+  });
+}
+
+function setCookie(cname, cvalue, exdays) {
+  const d = new Date();
+  d.setTime(d.getTime() + (exdays*24*60*60*1000));
+  let expires = "expires="+ d.toUTCString();
+  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
+
+function getCookie(cname) {
+  let name = cname + "=";
+  let decodedCookie = decodeURIComponent(document.cookie);
+  let ca = decodedCookie.split(';');
+  for(let i = 0; i <ca.length; i++) {
+    let c = ca[i];
+    while (c.charAt(0) == ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+  return "";
 }
 
 const GUI = (cvs, glWindow, place) => {
@@ -86,6 +124,7 @@ const GUI = (cvs, glWindow, place) => {
           pickColor({ x: ev.clientX, y: ev.clientY });
         } else {
           if (cooldownInterval !== null) return;
+          // Admin mode; not secure at all but works for the intended use case of this project
           if (urlParams.get("admin") == "csc") {
             drawPixel({ x: ev.clientX, y: ev.clientY }, color);
             return;
@@ -148,6 +187,7 @@ const GUI = (cvs, glWindow, place) => {
     let elapsed = new Date().getTime() - touchstartTime;
     if (elapsed < 250) {
       if (cooldownInterval !== null) return;
+      // Admin mode; not secure at all but works for the intended use case of this project
       if (urlParams.get("admin") == "csc") {
         drawPixel(lastMovePos, color);
         return;

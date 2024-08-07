@@ -1,13 +1,13 @@
 class Place {
 	#loaded;
-	#socket;
+	socket;
 	#loadingp;
 	#uiwrapper;
 	#glWindow;
 
 	constructor(glWindow) {
 		this.#loaded = false;
-		this.#socket = null;
+		this.socket = null;
 		this.#loadingp = document.querySelector("#loading-p");
 		this.#uiwrapper = document.querySelector("#ui-wrapper");
 		this.#glWindow = glWindow;
@@ -66,37 +66,43 @@ class Place {
 	}
 
 	#connect(path) {
-		this.#socket = new WebSocket(path);
+		this.socket = new WebSocket(path);
 
 		const socketMessage = async (event) => {
 			let b = await event.data.arrayBuffer();
+
+			if (b.byteLength == 4) {
+				if (new TextDecoder().decode(b) == "pong") {
+					return
+				}
+			}
 			this.#handleSocketSetPixel(b);
 		};
 
 		const socketClose = (event) => {
-			this.#socket = null;
+			this.socket = null;
 		};
 
 		const socketError = (event) => {
 			console.error("Error making WebSocket connection.");
 			alert("Failed to connect.");
-			this.#socket.close();
+			this.socket.close();
 		};
 
-		this.#socket.addEventListener("message", socketMessage);
-		this.#socket.addEventListener("close", socketClose);
-		this.#socket.addEventListener("error", socketError);
+		this.socket.addEventListener("message", socketMessage);
+		this.socket.addEventListener("close", socketClose);
+		this.socket.addEventListener("error", socketError);
 	}
 
 	setPixel(x, y, color) {
-		if (this.#socket != null && this.#socket.readyState == 1) {
+		if (this.socket != null && this.socket.readyState == 1) {
 			let b = new Uint8Array(11);
 			this.#putUint32(b.buffer, 0, x);
 			this.#putUint32(b.buffer, 4, y);
 			for (let i = 0; i < 3; i++) {
 				b[8 + i] = color[i];
 			}
-			this.#socket.send(b);
+			this.socket.send(b);
 			this.#glWindow.setPixelColor(x, y, color);
 			this.#glWindow.draw();
 		} else {
