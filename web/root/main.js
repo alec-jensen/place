@@ -123,7 +123,6 @@ const GUI = (cvs, glWindow, place) => {
         if (ev.ctrlKey) {
           pickColor({ x: ev.clientX, y: ev.clientY });
         } else {
-          if (cooldownInterval !== null) return;
           // Admin mode; not secure at all but works for the intended use case of this project
           if (urlParams.get("admin") == "csc") {
             drawPixel({ x: ev.clientX, y: ev.clientY }, color);
@@ -131,21 +130,6 @@ const GUI = (cvs, glWindow, place) => {
           } 
 
           drawPixel({ x: ev.clientX, y: ev.clientY }, color);
-          cooldown = cooldownTime;
-
-          document.getElementById("cooldown").innerHTML = cooldown;
-          document.getElementById("cooldown").style.visibility = "visible";
-          cooldownInterval = setInterval(() => {
-            if (cooldown > 1) {
-              cooldown--;
-              document.getElementById("cooldown").innerHTML = cooldown;
-            } else {
-              clearInterval(cooldownInterval);
-              cooldownInterval = null;
-              document.getElementById("cooldown").innerHTML = "";
-              document.getElementById("cooldown").style.visibility = "hidden";
-            }
-          }, 1000);
         }
     }
   });
@@ -186,7 +170,6 @@ const GUI = (cvs, glWindow, place) => {
     touchID++;
     let elapsed = new Date().getTime() - touchstartTime;
     if (elapsed < 250) {
-      if (cooldownInterval !== null) return;
       // Admin mode; not secure at all but works for the intended use case of this project
       if (urlParams.get("admin") == "csc") {
         drawPixel(lastMovePos, color);
@@ -194,21 +177,6 @@ const GUI = (cvs, glWindow, place) => {
       }
 
       drawPixel({ x: ev.clientX, y: ev.clientY }, color);
-      cooldown = cooldownTime;
-
-      document.getElementById("cooldown").innerHTML = cooldown;
-      document.getElementById("cooldown").style.visibility = "visible";
-      cooldownInterval = setInterval(() => {0
-        if (cooldown > 1) {
-          cooldown--;
-          document.getElementById("cooldown").innerHTML = cooldown;
-        } else {
-          clearInterval(cooldownInterval);
-          cooldownInterval = null;
-          document.getElementById("cooldown").innerHTML = "";
-          document.getElementById("cooldown").style.visibility = "hidden";
-        }
-      }, 1000);
       if (drawPixel(lastMovePos, color)) {
         navigator.vibrate(10);
       }
